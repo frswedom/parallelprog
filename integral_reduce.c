@@ -58,19 +58,6 @@ void RungeKuttaMethod( double (*f)(double, double), double minValue, double maxV
 
         y[i + 1] = y[i] + (k1 + 2 * k2 + 2 * k3 + k4) / 6;
     }
-    cout << "RungeKuttaMethod\n";
-    for (int i = 0; i < steps; i++)
-    {
-        cout << x[i] << ", ";
-    }
-    cout << x[steps];
-    cout << '\n';
-    for (int i = 0; i < steps; i++)
-    {
-        cout << y[i] << ", ";
-    }
-    cout << y[steps];
-    cout << '\n';
     return;
 }
 

@@ -28,7 +28,7 @@ int main(int argc, char const *argv[])
     //double mc_time_start = MPI_Wtime();
 
     srand(time(NULL) + id);
-    long int mc_total_num = 20000000, runs = 80;
+    long int mc_total_num = 200000, runs = 80;
     double mc_int[runs];
 
     for(int j = 0; j < runs; j++)
@@ -43,31 +43,6 @@ int main(int argc, char const *argv[])
         }
         MPI_Reduce(&mc_int_val, &mc_int[j], 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     }
-    
-
-    //-------------------------------------------------------------------------
-    // simple rectangle. only outer loop will be paralleled
-    //double rect_time_start = MPI_Wtime();
-    int rect_size = 2;
-    double total_rect_int_val = 0, old_int_val = 0;
-    double a_start = a_min + (id * a_range) / procnum;
-    double a_step = a_range / (rect_size * procnum);
-    do{
-        MPI_Barrier(MPI_COMM_WORLD);
-        old_int_val = total_rect_int_val;
-        double rect_int_val = 0.;
-        double a = a_start;
-        for(int l = 0; l < rect_size; l++, a += a_step)
-        {
-            rect_int_val += f(a);
-        }
-        total_rect_int_val = 0;
-        MPI_Allreduce(&rect_int_val, &total_rect_int_val, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
-        total_rect_int_val *= a_range / (rect_size * procnum);
-        rect_size *= 2;
-        a_step /= 2;
-        err = fabs(total_rect_int_val - old_int_val)/3;
-    } while (err > eps);
     
     total_time  = MPI_Wtime() - total_time;
     MPI_Finalize();

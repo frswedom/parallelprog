@@ -3,7 +3,7 @@
        include 'mpif.h'
 
        integer size, rank, ierr, i, n, my_n, status(MPI_STATUS_SIZE)
-       double precision sum, gsum, a, b, time_start, time_end
+       double precision sum, gsum, a, b, time_start, time_finish
        double precision al, bl, x, f, isum, step
        double precision time_1, time_2, time_total
        character (len=32) :: arg
@@ -43,7 +43,7 @@
 
        sum = (sum + f(x) / 2) * step
 
-       time_end = MPI_WTime()
+       time_finish = MPI_WTime()
        
        if(size.eq.1) then 
            open(13, FILE='output.recv.f.txt')

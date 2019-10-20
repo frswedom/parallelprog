@@ -37,6 +37,30 @@ double integral_SR(double start, int n, double step) //Simpson integration rule
     return value * step;
 }
 
+void RungeKuttaMethod( double (*f)(double, double), double minValue, double maxValue, double initialValue)
+{
+    const int steps = 20;
+    
+    double y[steps + 1];
+    double x[steps + 1];
+    
+    double h = (maxValue - minValue) / steps;
+    x[0] = minValue;
+    x[steps] = maxValue;
+    y[0] = initialValue;
+    for (int i = 0; i < steps; i++)
+    {
+        x[i] = x[0] + i*h;
+        double k1 = h*f(x[i], y[i]);
+        double k2 = h*f(x[i] + h / 2, y[i] + k1 / 2);
+        double k3 = h*f(x[i] + h / 2, y[i] + k2 / 2);
+        double k4 = h*f(x[i] + h, y[i] + k3);
+
+        y[i + 1] = y[i] + (k1 + 2 * k2 + 2 * k3 + k4) / 6;
+    }
+    return;
+}
+
 int main(int argc, char **argv)
 {   
 	int process_num, my_id;

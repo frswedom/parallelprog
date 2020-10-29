@@ -86,7 +86,7 @@ int main(int argc, char **argv)
     my_a = a + my_id * range;
     
     double time_thread = MPI_Wtime();
-    double my_result = integral(my_a, my_num, step);
+    double my_result = RungeKuttaMethod(my_a, my_num, step);
     time_thread = (MPI_Wtime() - time_thread) * 1000;
 
     printf("Process %d. Time used %f ms. My result = %f\n", my_id, time_thread, my_result);

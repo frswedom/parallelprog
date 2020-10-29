@@ -18,13 +18,16 @@ void zrhqr(float a[], int m, float rtr[], float rti[])
 
     hess=matrix(1,MAXM,1,MAXM);
     if (m > MAXM || a[m] == 0.0) nrerror("bad args in zrhqr");
+    
     for (k=1;k<=m;k++) {
         hess[1][k] = -a[m-k]/a[m];
         for (j=2;j<=m;j++) hess[j][k]=0.0;
         if (k != m) hess[k+1][k]=1.0;
     }
     balanc(hess,m);
+
     hqr(hess,m,rtr,rti);
+
     for (j=2;j<=m;j++) {
         xr=rtr[j];
         xi=rti[j];
@@ -36,8 +39,10 @@ void zrhqr(float a[], int m, float rtr[], float rti[])
         rtr[k+1]=xr;
         rti[k+1]=xi;
     }
+
     free_matrix(hess,1,MAXM,1,MAXM);
 }
+
 int main(int argc, char const *argv[])
 {
     int id, procnum;
